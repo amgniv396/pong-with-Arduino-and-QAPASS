@@ -1,4 +1,3 @@
-
 #include <Wire.h>
 #include <LiquidCrystal_I2C.h>
 
@@ -11,6 +10,7 @@ LiquidCrystal_I2C lcd(0x27,16,2);
 int i = -3;
 int j = 1;
 int counter = 0;
+int HighScore = 0;
 void setup()
 {
   pinMode(BUTTON_PIN1, INPUT_PULLUP);
@@ -20,11 +20,23 @@ void setup()
   lcd.init();
   lcd.backlight();
   lcd.clear();
+
+  lcd.setCursor(0,0);
+  lcd.print("HS:");
+  lcd.setCursor(3,0);
+  lcd.print(HighScore);
 }
  
  
 void loop()
 {
+  if(HighScore < counter){
+    HighScore = counter;
+    lcd.setCursor(0,0);
+    lcd.print("HS:");
+    lcd.setCursor(3,0);
+    lcd.print(HighScore);
+  }
   lcd.setCursor(7,0);
   lcd.print(counter);
   lcd.setCursor(8+i-j,1);
@@ -73,8 +85,10 @@ void loop()
 void endGame()
 {
     lcd.clear();
-    lcd.setCursor(3,1);
+    lcd.setCursor(3,0);
     lcd.print("game over");
+    lcd.setCursor(7,1);
+    lcd.print(counter);
     byte buttonState3 = digitalRead(BUTTON_RESTART);
     while(buttonState3 == HIGH){
       buttonState3 = digitalRead(BUTTON_RESTART);
@@ -86,4 +100,9 @@ void endGame()
       delay(1000);
     }
     lcd.clear();
+    
+    lcd.setCursor(0,0);
+    lcd.print("HS:");
+    lcd.setCursor(3,0);
+    lcd.print(HighScore);
 }
