@@ -11,6 +11,7 @@ int i = -3;
 int j = 1;
 int counter = 0;
 int HighScore = 0;
+int Speed = 400;
 void setup()
 {
   pinMode(BUTTON_PIN1, INPUT_PULLUP);
@@ -59,6 +60,7 @@ void loop()
     if(i == 7){
       j = -j;
       counter++;
+      Speed -= 5;
     }
     else{
       endGame();
@@ -74,13 +76,14 @@ void loop()
     if(i == -8){
       j = -j;
       counter++;
+      Speed -= 5;
     }
     else{
       endGame();
     }
   }
   i = i + j;
-  delay(400);
+  delay(Speed);
 }
 void endGame()
 {
